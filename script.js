@@ -3,10 +3,22 @@ const filterButtons = document.querySelectorAll('.filter-btn');
 const productCards = document.querySelectorAll('.product-card');
 const likeButtons = document.querySelectorAll('.like-btn');
 
-// Filter functionality
+// Performance optimization variables
+let isFiltering = false;
+let filterTimeout = null;
+
+// Filter functionality with debouncing
 function initializeFiltering() {
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
+            // Prevent multiple rapid clicks
+            if (isFiltering) return;
+            
+            // Clear any pending filter operations
+            if (filterTimeout) {
+                clearTimeout(filterTimeout);
+            }
+            
             // Remove active class from all buttons
             filterButtons.forEach(btn => btn.classList.remove('active'));
             
@@ -16,34 +28,62 @@ function initializeFiltering() {
             // Get the filter value
             const filterValue = this.getAttribute('data-filter');
             
-            // Filter the product cards
+            // Filter the product cards with debouncing
+            isFiltering = true;
             filterProducts(filterValue);
+            
+            // Reset filtering flag after animation completes
+            filterTimeout = setTimeout(() => {
+                isFiltering = false;
+            }, 500);
         });
     });
 }
 
 // Filter products based on category
 function filterProducts(category) {
+    // Clean up previous animation states
     productCards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
+        card.classList.remove('filter-in', 'filter-out');
+        card.style.animationDelay = '';
+    });
+    
+    // Use requestAnimationFrame for smooth animations
+    requestAnimationFrame(() => {
+        const visibleCards = [];
+        const hiddenCards = [];
         
-        if (category === 'all' || cardCategory === category) {
-            // Show the card
-            card.classList.remove('hidden');
-            // Add a small delay for smooth appearance
+        // Separate cards into visible and hidden arrays
+        productCards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category');
+            if (category === 'all' || cardCategory === category) {
+                visibleCards.push(card);
+            } else {
+                hiddenCards.push(card);
+            }
+        });
+        
+        // Hide cards first (faster animation)
+        hiddenCards.forEach(card => {
+            card.classList.remove('filter-in');
+            card.classList.add('filter-out');
+            
+            // Hide after animation completes
             setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, 50);
-        } else {
-            // Hide the card
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            // Add hidden class after transition
-            setTimeout(() => {
-                card.classList.add('hidden');
+                if (card.classList.contains('filter-out')) {
+                    card.classList.add('hidden');
+                }
             }, 300);
-        }
+        });
+        
+        // Show visible cards with staggered animation
+        setTimeout(() => {
+            visibleCards.forEach((card, index) => {
+                card.classList.remove('hidden', 'filter-out');
+                card.classList.add('filter-in');
+                card.style.animationDelay = `${index * 30}ms`;
+            });
+        }, 100);
     });
     
     // Update the count or perform any additional actions
@@ -111,9 +151,8 @@ function restoreLikedState() {
 
 // Add smooth transitions for filtering
 function addFilterTransitions() {
-    productCards.forEach(card => {
-        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-    });
+    // Remove this function as we'll use CSS classes instead
+    // CSS animations are more performant than JS transitions
 }
 
 // Search functionality (bonus feature)
@@ -178,17 +217,16 @@ function initializeSearch() {
 
 // Add loading animation
 function addLoadingAnimation() {
-    // Initially hide all cards
+    // Use CSS classes for better performance
     productCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
+        card.classList.add('loading');
+        card.style.animationDelay = `${index * 100}ms`;
         
-        // Animate cards in sequence
+        // Remove loading class after animation
         setTimeout(() => {
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 100);
+            card.classList.remove('loading');
+            card.classList.add('loaded');
+        }, 600 + (index * 100));
     });
 }
 

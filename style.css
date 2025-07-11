@@ -89,8 +89,12 @@ header p {
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                border-color 0.3s ease;
     cursor: pointer;
+    contain: layout style paint;
+    transform: translate3d(0, 0, 0);
 }
 
 .product-card:hover {
@@ -112,11 +116,13 @@ header p {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
 }
 
 .product-card:hover .card-image-container img {
-    transform: scale(1.1);
+    transform: translate3d(0, 0, 0) scale(1.1);
 }
 
 /* Like Button */
@@ -133,10 +139,15 @@ header p {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                background-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
     color: #64748b;
     backdrop-filter: blur(10px);
     z-index: 10;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
 }
 
 .like-btn:hover {
@@ -182,6 +193,62 @@ header p {
 /* Hidden class for filtering */
 .hidden {
     display: none !important;
+}
+
+/* Optimized filter animations with GPU acceleration */
+.filter-in {
+    animation: filterIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform: translate3d(0, 0, 0); /* Force GPU acceleration */
+}
+
+.filter-out {
+    animation: filterOut 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+    transform: translate3d(0, 0, 0); /* Force GPU acceleration */
+}
+
+@keyframes filterIn {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes filterOut {
+    0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0, -20px, 0) scale(0.95);
+    }
+}
+
+/* Loading animations */
+.loading {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+    animation: loadIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.loaded {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+@keyframes loadIn {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 30px, 0) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
 }
 
 /* Responsive Design */
@@ -273,32 +340,9 @@ header p {
     }
 }
 
-/* Animation for card appearance */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* Optimized card performance */
 .product-card {
-    animation: fadeInUp 0.6s ease forwards;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
-
-/* Stagger animation for cards */
-.product-card:nth-child(1) { animation-delay: 0.1s; }
-.product-card:nth-child(2) { animation-delay: 0.2s; }
-.product-card:nth-child(3) { animation-delay: 0.3s; }
-.product-card:nth-child(4) { animation-delay: 0.4s; }
-.product-card:nth-child(5) { animation-delay: 0.5s; }
-.product-card:nth-child(6) { animation-delay: 0.6s; }
-.product-card:nth-child(7) { animation-delay: 0.7s; }
-.product-card:nth-child(8) { animation-delay: 0.8s; }
-.product-card:nth-child(9) { animation-delay: 0.9s; }
-.product-card:nth-child(10) { animation-delay: 1s; }
-.product-card:nth-child(11) { animation-delay: 1.1s; }
-.product-card:nth-child(12) { animation-delay: 1.2s; }
