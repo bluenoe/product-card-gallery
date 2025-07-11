@@ -6,6 +6,7 @@ const likeButtons = document.querySelectorAll('.like-btn');
 // Performance optimization variables
 let isFiltering = false;
 let filterTimeout = null;
+let activeAnimations = new Set();
 
 // Filter functionality with debouncing
 function initializeFiltering() {
@@ -18,6 +19,9 @@ function initializeFiltering() {
             if (filterTimeout) {
                 clearTimeout(filterTimeout);
             }
+            
+            // Cancel all active animations
+            cancelActiveAnimations();
             
             // Remove active class from all buttons
             filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -35,59 +39,83 @@ function initializeFiltering() {
             // Reset filtering flag after animation completes
             filterTimeout = setTimeout(() => {
                 isFiltering = false;
-            }, 500);
+                activeAnimations.clear();
+            }, 400);
         });
     });
 }
 
+// Cancel all active animations
+function cancelActiveAnimations() {
+    activeAnimations.forEach(card => {
+        card.classList.remove('filtering', 'filter-in', 'filter-out');
+        card.style.animationDelay = '';
+        card.removeEventListener('animationend', handleAnimationEnd);
+    });
+    activeAnimations.clear();
+}
+
 // Filter products based on category
 function filterProducts(category) {
-    // Clean up previous animation states
+    // Immediately clean up all animation states
     productCards.forEach(card => {
-        card.classList.remove('filter-in', 'filter-out');
+        card.classList.remove('filter-in', 'filter-out', 'filtering');
         card.style.animationDelay = '';
+        card.removeEventListener('animationend', handleAnimationEnd);
     });
     
-    // Use requestAnimationFrame for smooth animations
+    // Use double requestAnimationFrame for smoother transitions
     requestAnimationFrame(() => {
-        const visibleCards = [];
-        const hiddenCards = [];
-        
-        // Separate cards into visible and hidden arrays
-        productCards.forEach(card => {
-            const cardCategory = card.getAttribute('data-category');
-            if (category === 'all' || cardCategory === category) {
-                visibleCards.push(card);
-            } else {
-                hiddenCards.push(card);
-            }
-        });
-        
-        // Hide cards first (faster animation)
-        hiddenCards.forEach(card => {
-            card.classList.remove('filter-in');
-            card.classList.add('filter-out');
+        requestAnimationFrame(() => {
+            const visibleCards = [];
+            const hiddenCards = [];
             
-            // Hide after animation completes
-            setTimeout(() => {
-                if (card.classList.contains('filter-out')) {
-                    card.classList.add('hidden');
+            // Separate cards into visible and hidden arrays
+            productCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === 'all' || cardCategory === category) {
+                    visibleCards.push(card);
+                } else {
+                    hiddenCards.push(card);
                 }
-            }, 300);
-        });
-        
-        // Show visible cards with staggered animation
-        setTimeout(() => {
-            visibleCards.forEach((card, index) => {
-                card.classList.remove('hidden', 'filter-out');
-                card.classList.add('filter-in');
-                card.style.animationDelay = `${index * 30}ms`;
             });
-        }, 100);
+            
+            // Process hidden cards immediately
+             hiddenCards.forEach(card => {
+                 card.classList.add('filtering', 'filter-out');
+                 card.addEventListener('animationend', handleAnimationEnd, { once: true });
+                 activeAnimations.add(card);
+             });
+             
+             // Process visible cards immediately
+             visibleCards.forEach((card, index) => {
+                 card.classList.remove('hidden');
+                 card.classList.add('filtering', 'filter-in');
+                 card.style.animationDelay = `${index * 15}ms`;
+                 card.addEventListener('animationend', handleAnimationEnd, { once: true });
+                 activeAnimations.add(card);
+             });
+        });
     });
     
-    // Update the count or perform any additional actions
+    // Update the count
     updateVisibleCount(category);
+}
+
+// Handle animation end events
+function handleAnimationEnd(event) {
+    const card = event.target;
+    
+    if (card.classList.contains('filter-out')) {
+        card.classList.add('hidden');
+    }
+    
+    // Clean up animation classes
+    card.classList.remove('filtering', 'filter-in', 'filter-out');
+    card.style.animationDelay = '';
+    
+    // Remove from active animations set
+    activeAnimations.delete(card);
 }
 
 // Update visible product count (optional enhancement)

@@ -196,20 +196,29 @@ header p {
 }
 
 /* Optimized filter animations with GPU acceleration */
+.filtering {
+    pointer-events: none; /* Prevent interaction during animation */
+}
+
 .filter-in {
-    animation: filterIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: filterIn 0.35s cubic-bezier(0.23, 1, 0.32, 1) forwards;
     transform: translate3d(0, 0, 0); /* Force GPU acceleration */
+    opacity: 1;
 }
 
 .filter-out {
-    animation: filterOut 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+    animation: filterOut 0.25s cubic-bezier(0.755, 0.05, 0.855, 0.06) forwards;
     transform: translate3d(0, 0, 0); /* Force GPU acceleration */
 }
 
 @keyframes filterIn {
     0% {
         opacity: 0;
-        transform: translate3d(0, 20px, 0) scale(0.95);
+        transform: translate3d(0, 15px, 0) scale(0.96);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translate3d(0, -2px, 0) scale(1.01);
     }
     100% {
         opacity: 1;
@@ -224,7 +233,7 @@ header p {
     }
     100% {
         opacity: 0;
-        transform: translate3d(0, -20px, 0) scale(0.95);
+        transform: translate3d(0, -10px, 0) scale(0.98);
     }
 }
 
@@ -345,4 +354,17 @@ header p {
     will-change: transform, opacity;
     backface-visibility: hidden;
     perspective: 1000px;
+    transform-style: preserve-3d;
+    isolation: isolate;
+}
+
+/* Prevent layout shifts during animations */
+.product-card.filtering {
+    position: relative;
+    z-index: 1;
+}
+
+/* Ensure smooth transitions */
+.product-card:not(.filtering) {
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
