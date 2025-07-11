@@ -16,168 +16,335 @@
             <p>Discover our amazing collection of products</p>
         </header>
 
+        <!-- Search and Sort Controls -->
+        <div class="controls-section">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Tìm kiếm sản phẩm..." aria-label="Search products">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </div>
+            
+            <div class="sort-container">
+                <select class="sort-select" aria-label="Sort products">
+                    <option value="default">Sắp xếp theo</option>
+                    <option value="price-low">Giá: Thấp đến Cao</option>
+                    <option value="price-high">Giá: Cao đến Thấp</option>
+                    <option value="name-asc">Tên: A-Z</option>
+                    <option value="name-desc">Tên: Z-A</option>
+                </select>
+            </div>
+            
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                </button>
+                <button class="view-btn" data-view="list" aria-label="List view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
         <!-- Filter Buttons -->
         <div class="filter-buttons">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="electronics">Electronics</button>
-            <button class="filter-btn" data-filter="apparel">Apparel</button>
-            <button class="filter-btn" data-filter="home">Home & Garden</button>
-            <button class="filter-btn" data-filter="sports">Sports</button>
+            <button class="filter-btn active" data-filter="all">Tất cả <span class="count"></span></button>
+            <button class="filter-btn" data-filter="electronics">Điện tử <span class="count"></span></button>
+            <button class="filter-btn" data-filter="apparel">Thời trang <span class="count"></span></button>
+            <button class="filter-btn" data-filter="home">Nhà cửa <span class="count"></span></button>
+            <button class="filter-btn" data-filter="sports">Thể thao <span class="count"></span></button>
+        </div>
+        
+        <!-- Results Info -->
+        <div class="results-info">
+            <span class="results-count">Hiển thị <strong id="visible-count">12</strong> sản phẩm</span>
+            <button class="clear-filters" style="display: none;">Xóa bộ lọc</button>
         </div>
 
         <!-- Product Gallery -->
         <div class="product-gallery">
             <!-- Electronics Products -->
-            <div class="product-card" data-category="electronics">
+            <div class="product-card" data-category="electronics" data-price="129.99" data-name="Tai nghe không dây" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop" alt="Wireless Headphones">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop" alt="Tai nghe không dây" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
+                    <div class="product-badge">Mới</div>
                 </div>
                 <div class="card-body">
-                    <h3>Wireless Headphones</h3>
+                    <h3>Tai nghe không dây</h3>
                     <p class="price">$129.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <span class="rating-text">(4.2)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="electronics">
+            <div class="product-card" data-category="electronics" data-price="899.99" data-name="Điện thoại thông minh" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop" alt="Smartphone">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop" alt="Điện thoại thông minh" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
+                    <div class="product-badge sale">Giảm 20%</div>
                 </div>
                 <div class="card-body">
-                    <h3>Latest Smartphone</h3>
+                    <h3>Điện thoại thông minh</h3>
                     <p class="price">$899.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                        </div>
+                        <span class="rating-text">(4.8)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="electronics">
+            <div class="product-card" data-category="electronics" data-price="1299.99" data-name="Laptop gaming" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop" alt="Laptop">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop" alt="Laptop gaming" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
+                    <div class="product-badge premium">Cao cấp</div>
                 </div>
                 <div class="card-body">
-                    <h3>Gaming Laptop</h3>
+                    <h3>Laptop gaming</h3>
                     <p class="price">$1,299.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <span class="rating-text">(4.5)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
 
             <!-- Apparel Products -->
-            <div class="product-card" data-category="apparel">
+            <div class="product-card" data-category="apparel" data-price="29.99" data-name="Áo thun cao cấp" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop" alt="T-Shirt">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop" alt="Áo thun cao cấp" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
+                    <div class="product-badge eco">Thân thiện môi trường</div>
                 </div>
                 <div class="card-body">
-                    <h3>Premium T-Shirt</h3>
+                    <h3>Áo thun cao cấp</h3>
                     <p class="price">$29.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <span class="rating-text">(4.1)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="apparel">
+            <div class="product-card" data-category="apparel" data-price="89.99" data-name="Quần jeans thiết kế" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=300&fit=crop" alt="Jeans">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=300&fit=crop" alt="Quần jeans thiết kế" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
                 </div>
                 <div class="card-body">
-                    <h3>Designer Jeans</h3>
+                    <h3>Quần jeans thiết kế</h3>
                     <p class="price">$89.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                        </div>
+                        <span class="rating-text">(4.7)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="apparel">
+            <div class="product-card" data-category="apparel" data-price="119.99" data-name="Giày chạy bộ" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop" alt="Sneakers">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop" alt="Giày chạy bộ" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
+                    <div class="product-badge bestseller">Bán chạy</div>
                 </div>
                 <div class="card-body">
-                    <h3>Running Sneakers</h3>
+                    <h3>Giày chạy bộ</h3>
                     <p class="price">$119.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                        </div>
+                        <span class="rating-text">(4.9)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
 
             <!-- Home & Garden Products -->
-            <div class="product-card" data-category="home">
+            <div class="product-card" data-category="home" data-price="24.99" data-name="Chậu cây gốm sứ" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop" alt="Plant Pot">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop" alt="Chậu cây gốm sứ" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
+                    <div class="product-badge handmade">Thủ công</div>
                 </div>
                 <div class="card-body">
-                    <h3>Ceramic Plant Pot</h3>
+                    <h3>Chậu cây gốm sứ</h3>
                     <p class="price">$24.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <span class="rating-text">(4.3)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="home">
+            <div class="product-card" data-category="home" data-price="799.99" data-name="Sofa hiện đại" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop" alt="Sofa">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop" alt="Sofa hiện đại" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
+                    <div class="product-badge luxury">Sang trọng</div>
                 </div>
                 <div class="card-body">
-                    <h3>Modern Sofa</h3>
+                    <h3>Sofa hiện đại</h3>
                     <p class="price">$799.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                        </div>
+                        <span class="rating-text">(4.6)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
 
             <!-- Sports Products -->
-            <div class="product-card" data-category="sports">
+            <div class="product-card" data-category="sports" data-price="49.99" data-name="Bóng rổ chuyên nghiệp" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Basketball">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Bóng rổ chuyên nghiệp" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
+                    <div class="product-badge pro">Chuyên nghiệp</div>
                 </div>
                 <div class="card-body">
-                    <h3>Professional Basketball</h3>
+                    <h3>Bóng rổ chuyên nghiệp</h3>
                     <p class="price">$49.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                        </div>
+                        <span class="rating-text">(4.8)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="sports">
+            <div class="product-card" data-category="sports" data-price="39.99" data-name="Thảm yoga cao cấp" role="article">
                 <div class="card-image-container">
-                    <img src="https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=300&fit=crop" alt="Yoga Mat">
-                    <button class="like-btn" aria-label="Like product">
+                    <img src="https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=400&h=300&fit=crop" alt="Thảm yoga cao cấp" loading="lazy">
+                    <button class="like-btn" aria-label="Thích sản phẩm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                     </button>
+                    <div class="product-badge wellness">Sức khỏe</div>
                 </div>
                 <div class="card-body">
-                    <h3>Premium Yoga Mat</h3>
+                    <h3>Thảm yoga cao cấp</h3>
                     <p class="price">$39.99</p>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <span class="rating-text">(4.4)</span>
+                    </div>
+                    <button class="add-to-cart-btn">Thêm vào giỏ</button>
                 </div>
             </div>
         </div>
